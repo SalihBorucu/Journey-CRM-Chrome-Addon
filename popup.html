@@ -1,61 +1,60 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <script type="text/javascript" src="popup.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+    </head>
+    <style>
+        body {
+            width: 300px;
+            height: auto;
+            background-color: #27b793;
+            color: white;
+        }
 
-<head>
-    <script type="text/javascript" src="popup.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<style>
-    body {
-        width: 300px;
-        height: auto;
-        background-color: #0077B5;
-        color: white;
-    }
-    
-    .btn-outline-light:hover {
-        color: #0077B5;
-        background-color: #f8f9fa;
-        border-color: #f8f9fa;
-    }
-    
-    .close-button:hover {
-        color: red;
-        cursor: pointer;
-        font-weight: 500;
-    }
-    
-    .close-button {
-        font-weight: bolder;
-        font-weight: bolder;
-        float: right;
-        margin-right: 8px;
-    }
-    
-    ol {
-        overflow-y: auto;
-        max-height: 120px;
-    }
-    
-    .wrapper {
-        justify-content: space-between;
-    }
-</style>
+        .btn-outline-light:hover {
+            color: #27b793;
+            background-color: #f8f9fa;
+            border-color: #f8f9fa;
+        }
 
-<body>
-    <div class="container-fluid">
-        <div class="wrapper d-flex flex-row mt-2">
-            <h3 style="font-weight:bold; text-align:center;">Leads - <span id="lead-count">0</span></h3>
-            <button class="btn btn-outline-light mb-3 " id="clear_list">Clear List</button>
+        .close-button:hover {
+            color: red;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .close-button {
+            font-weight: bolder;
+            font-weight: bolder;
+            float: right;
+            margin-right: 8px;
+        }
+
+        ol {
+            overflow-y: auto;
+            max-height: 120px;
+        }
+
+        .wrapper {
+            justify-content: space-between;
+        }
+    </style>
+
+    <body>
+        <div class="container-fluid">
+            <h3 style="font-weight: bold; text-align: center;">Sign In</h3>
+
+            <div id="login-component">
+                <input type="text" class="form-control mb-1" id="user-email" placeholder="example@example.com" />
+                <input type="password" class="form-control mb-1" id="user-password" placeholder="Jane Doe" />
+                <button class="btn btn-outline-light w-100 mb-3" id="sign-in-button">Sign In</button>
+            </div>
         </div>
-        <ol id="total">
-
-        </ol>
-        <input type="text" class="form-control mb-1" id="email" placeholder="example@dwcc.biz">
-        <input type="text" class="form-control mb-1" id="name" placeholder="Jane Doe">
-        <input type="text" class="form-control mb-2" id="document" placeholder="Client_Campaign_User_Year_Quarter_Month">
-        <button class="btn btn-outline-light w-100 mb-3" id="create_button">Export</button>
-    </div>
-</body>
-
+    </body>
 </html>
