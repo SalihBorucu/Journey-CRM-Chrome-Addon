@@ -1,82 +1,38 @@
 document.addEventListener('DOMContentLoaded', function () {
-    chrome.storage.sync.get(['userEmail', 'userPassword'], function (result) {
-        if (result.userEmail && result.userPassword) {
-            document.getElementById('login-component').innerHTML = '';
-            document.getElementById('login-component').innerHTML = `
-                        <h1>Welcome!</h1>
-                        <button class="btn btn-outline-light w-100 mb-3" id="sign-out-button">Log Out</button>`;
-            document.getElementById('sign-out-button').addEventListener('click', function () {
-                chrome.storage.sync.set({ userEmail: null, userPassword: null }, function () {
-                    document.getElementById('login-component').innerHTML = '';
-                    document.getElementById('login-component').innerHTML = `
-                                        <input type="text" class="form-control mb-1" id="user-email" placeholder="example@example.com" />
-                <input type="password" class="form-control mb-1" id="user-password"/>
-                <button class="btn btn-outline-light w-100 mb-3" id="sign-in-button">Sign In</button>`;
-                });
+            let iframeUrl = `http://journeycrm.test/login-iframe?currentToken=null`;
+
+            let elt = document.createElement('iframe');
+            elt.id = 'auth_iframe';
+            elt.src = iframeUrl;
+            document.getElementsByTagName('body')[0].appendChild(elt);
+
+            let eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+            let eventer = window[eventMethod];
+            let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
+
+            eventer(messageEvent, function (e) {
+                //if never been connected
+                if (e.data.connectStatus !== 'connected') {
+                    window.open('http://journeycrm.test/login');
+                    console.error('not logged in');
+                    return;
+                }
+
+                let user = JSON.parse(e.data.user);
+                let accessToken = e.data.accessToken;
+
+                chrome.storage.sync.set({ accessToken, user }, function () {});
+
+                document.getElementById('login-component').innerHTML = `
+            <h4 style="text-align: center;">Welcome</h4> 
+            <hr>
+            <h4><strong>${user.name}</strong></h4>
+            `;
             });
-        } else {
-            document.getElementById('login-component').innerHTML = '';
-            document.getElementById('login-component').innerHTML = `
-                                        <input type="text" class="form-control mb-1" id="user-email" placeholder="example@example.com" />
-                <input type="password" class="form-control mb-1" id="user-password"/>
-                <button class="btn btn-outline-light w-100 mb-3" id="sign-in-button">Sign In</button>`;
-            document.getElementById('sign-in-button').addEventListener('click', function () {
-                let userEmail = document.getElementById('user-email').value;
-                let userPassword = document.getElementById('user-password').value;
-
-                const options = {
-                    method: 'POST',
-                    body: JSON.stringify({ userEmail, userPassword }),
-                };
-
-                fetch('http://journeycrm.test/api/login', options)
-                    .then((response) => {
-                        response.text().then((result) => {
-                            // if (result === 'done') {
-                            document.getElementById('login-component').innerHTML = '';
-                            document.getElementById('login-component').innerHTML = `
-                        <h1>Welcome!</h1>
-                        <button class="btn btn-outline-light w-100 mb-3" id="sign-out-button">Log Out</button>`;
-                            document.getElementById('sign-out-button').addEventListener('click', function () {
-                                console.log('signing out');
-                            });
-                            chrome.storage.sync.set({ userEmail, userPassword }, function () {});
-                        });
-                    })
-                    .catch((error) => {
-                        console.error(`API error: Couldn't send data over.`);
-                    });
-            });
-        }
-    });
-
-    document.getElementById('sign-in-button').addEventListener('click', function () {
-        let userEmail = document.getElementById('user-email').value;
-        let userPassword = document.getElementById('user-password').value;
-
-        const options = {
-            method: 'POST',
-            body: JSON.stringify({ userEmail, userPassword }),
-        };
-
-        fetch('http://journeycrm.test/api/login', options)
-            .then((response) => {
-                response.text().then((result) => {
-                    // if (result === 'done') {
-                    document.getElementById('login-component').innerHTML = '';
-                    document.getElementById('login-component').innerHTML = `
-                        <h1>Welcome!</h1>
-                        <button class="btn btn-outline-light w-100 mb-3" id="sign-out-button">Log Out</button>`;
-                    document.getElementById('sign-out-button').addEventListener('click', function () {
-                        console.log('signing out');
-                    });
-                    chrome.storage.sync.set({ userEmail, userPassword }, function () {});
-                    // }
-                    // console.log(result);
-                });
-            })
-            .catch((error) => {
-                console.error(`API error: Couldn't send data over.`);
-            });
+        
     });
 });
+
+// function popup() {
+
+// }
