@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('logout-button').addEventListener('click', function () {
+        chrome.storage.sync.set({ accessToken: null, user: null }, function () {});
+        document.getElementById('login-component').innerHTML = '';
+    });
 
-    function something(){
-        console.log('lololo')
-    }
     let iframeUrl = `http://journeycrm.test/login-iframe`;
 
     chrome.storage.sync.get(['accessToken', 'user'], function (result) {
@@ -19,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         return;
                     }
                     document.getElementById('login-component').innerHTML = `
-                        <h4 style="text-align: center;">Welcome</h4>
-                        <hr>
-                        <h4><strong>${result.user.name}</strong></h4>
+                        <hr class="mt-0">
+                        <h5 style="text-align: center;">Welcome</h5>
+                        <h5 style="text-align: center;"><strong>${result.user.name}</strong></h5>
                         `;
                 });
             })
@@ -49,13 +50,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 let accessToken = e.data.accessToken;
                 chrome.storage.sync.set({ accessToken, user }, function () {});
                 document.getElementById('login-component').innerHTML = `
-                                                        <h4 style="text-align: center;">Welcome</h4>
-                                                        <hr>
-                                                        <h4><strong>${user.name}</strong></h4>
+                        <hr class="mt-0">
+                        <h5 style="text-align: center;">Welcome</h5>
+                        <h5 style="text-align: center;"><strong>${user.name}</strong></h5>
                                                         `;
             });
         }
     });
 });
-
-
