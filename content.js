@@ -1,5 +1,5 @@
 chrome.storage.sync.get(['accessToken'], function (result) {
-    if(result.accessToken){
+    if (result.accessToken) {
         addButton();
     }
 });
@@ -87,9 +87,6 @@ function addButton() {
                                 linkedin: url,
                             },
                         });
-
-                        document.getElementById("scraper").innerText = "Saved"
-                        document.getElementById("scraper").setAttribute("disabled", '')
                     },
                     false
                 );
@@ -98,9 +95,19 @@ function addButton() {
     }
 }
 
-
-
 chrome.runtime.sendMessage({
     from: 'content',
     subject: 'showPageAction',
+});
+
+chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
+    if (msg.action == 'API error') {
+        alert(
+            `I couldn't connect to Journey CRM, please click on the extension icon on the top right of the browser and refresh then try again. If the issue persists, create a ticket with the error code 'API Token Error 01'.`
+        );
+    }
+    if (msg.action == 'Successful') {
+        document.getElementById('scraper').innerText = 'Saved';
+        document.getElementById('scraper').setAttribute('disabled', '');
+    }
 });
