@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         createNewToken();
                         return;
                     }
+                    console.log('found user, logged in, response was done.')
                     document.getElementById('login-component').innerHTML = `
                         <hr class="mt-0">
                         <h5 style="text-align: center;">Welcome</h5>
@@ -38,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let eventer = window[eventMethod];
             let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message';
-
             eventer(messageEvent, function (e) {
+                console.log('eventer.')
                 //if not signed in
                 if (e.data.connectStatus !== 'connected') {
                     window.open('http://journeycrm.test/login');
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 let user = JSON.parse(e.data.user);
                 let accessToken = e.data.accessToken;
+
                 chrome.storage.sync.set({ accessToken, user }, function () {});
                 document.getElementById('login-component').innerHTML = `
                         <hr class="mt-0">
