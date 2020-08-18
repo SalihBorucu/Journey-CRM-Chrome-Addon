@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('login-component').innerHTML = '';
     });
 
-    let iframeUrl = `http://journeycrm.test/login-iframe`;
+    let iframeUrl = `http://journey-crm.salihborucu.com/login-iframe`;
 
     chrome.storage.sync.get(['accessToken', 'user'], function (result) {
         const options = {
@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: { authorization: 'Bearer ' + result.accessToken },
         };
 
-        fetch('http://journeycrm.test/api/login-iframe', options)
+        fetch('http://journey-crm.salihborucu.com/api/login-iframe', options)
             .then((response) => {
                 return response.text().then((textResponse) => {
                     if (textResponse !== 'done') {
                         createNewToken();
                         return;
                     }
-                    console.log('found user, logged in, response was done.')
+                    console.log('found user, logged in, response was done.');
                     document.getElementById('login-component').innerHTML = `
                         <hr class="mt-0">
                         <h5 style="text-align: center;">Welcome</h5>
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('eventer.')
                 //if not signed in
                 if (e.data.connectStatus !== 'connected') {
-                    window.open('http://journeycrm.test/login');
+                    window.open('http://journey-crm.salihborucu.com/login');
                     console.error('not logged in');
                     return;
                 }

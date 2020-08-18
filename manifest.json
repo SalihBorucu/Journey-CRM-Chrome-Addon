@@ -12,7 +12,7 @@
         "persistent": true,
         "scripts": ["background.js"]
     },
-    "permissions": ["tabs", "storage", "http://journeycrm.test/*"],
+    "permissions": ["tabs", "storage", "http://journey-crm.salihborucu.com/*"],
 
     "page_action": {
         "default_title": "Journey CRM Extension",
