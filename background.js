@@ -35,3 +35,13 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
         chrome.pageAction.show(sender.tab.id);
     }
 });
+
+//To alert content that the page has changed
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+        chrome.tabs.sendMessage(tabId, {
+            message: 'changed',
+            url: changeInfo.url,
+        });
+    }
+});

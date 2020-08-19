@@ -112,3 +112,12 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
     }
     return true;
 });
+
+//To refresh the button when moved to a new page
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.message === 'changed') {
+        addButton();
+        document.getElementById('scraper').removeAttribute('disabled', '');
+        document.getElementById('scraper').innerText = 'Save Lead';
+    }
+});
