@@ -12,22 +12,22 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
                     body: JSON.stringify(obj),
                 };
 
-                fetch('http://journeycrm.test/api/incomplete-leads', options)
+                fetch('https://journey-crm.salihborucu.com/api/incomplete-leads', options)
                     .then((response) => {
                         return response.text();
                     })
                     .then((textReponse) => {
                         if (textReponse !== 'done') {
                             chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                                chrome.tabs.sendMessage(tabs[0].id, { action: 'API error' }, function (response) {});
+                                chrome.tabs.sendMessage(tabs[0].id, { action: 'API error' });
                             });
                             return;
                         }
                         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                            chrome.tabs.sendMessage(tabs[0].id, { action: 'Successful' }, function (response) {});
+                            chrome.tabs.sendMessage(tabs[0].id, { action: 'Successful' });
                         });
                     })
-                    .catch((error) => {
+                    .catch(() => {
                         bkg.console.error(`Couldn't connect to API, or authorize user.`);
                     });
             });

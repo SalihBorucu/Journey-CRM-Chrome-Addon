@@ -110,4 +110,5 @@ chrome.extension.onMessage.addListener(function (msg, sender, sendResponse) {
         document.getElementById('scraper').innerText = 'Saved';
         document.getElementById('scraper').setAttribute('disabled', '');
     }
+    return true;
 });
